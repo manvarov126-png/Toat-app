@@ -22,20 +22,20 @@ jobs:
       - name: Flutter SDK o'rnatish
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.22.2'
           channel: 'stable'
           cache: true
 
-      - name: Android loyihasini yaratish (agar yo'q bo'lsa)
+      - name: Android platformasini yaratish
         run: |
-          if [ ! -d "android" ]; then
-            flutter create . --project-name toat_app --org com.toat.app
-          fi
+          rm -rf android
+          flutter create . --project-name toat_app --org com.toat.app --platforms=android
 
       - name: Kutubxonalarni yuklash
         run: flutter pub get
 
       - name: APK faylni yig'ish (Release)
-        run: flutter build apk --release
+        run: flutter build apk --release --no-tree-shake-icons
 
       - name: APK ni yuklab olishga chiqarish
         uses: actions/upload-artifact@v4
